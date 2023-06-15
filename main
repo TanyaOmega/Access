@@ -1,0 +1,29 @@
+pragma solidity ^0.8.0;
+
+contract AccessControl {
+    address public owner;
+    bool public isContractActive;
+
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Only the owner can call this function.");
+        _;
+    }
+
+    modifier onlyWhenActive() {
+        require(isContractActive, "Contract is not active.");
+        _;
+    }
+
+    constructor() {
+        owner = msg.sender;
+        isContractActive = true;
+    }
+
+    function toggleContractActive() public onlyOwner {
+        isContractActive = !isContractActive;
+    }
+
+    function withdraw() public onlyWhenActive {
+        // Withdraw logic
+    }
+}
